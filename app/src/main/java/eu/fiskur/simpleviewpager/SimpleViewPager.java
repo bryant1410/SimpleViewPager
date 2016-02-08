@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +18,8 @@ import android.widget.RelativeLayout;
 import static eu.fiskur.simpleviewpager.R.drawable.circle;
 
 public class SimpleViewPager extends RelativeLayout {
+
+    private static final String TAG = "SimpleViewPager";
 
     private static final int MODE_URLS = 0;
     private static final int MODE_DRAWABLES = 1;
@@ -38,6 +41,8 @@ public class SimpleViewPager extends RelativeLayout {
     private Drawable unselectedCircle = null;
 
     private boolean forceSquare = false;
+    private int layout_width =  ViewGroup.LayoutParams.MATCH_PARENT;
+    private int layout_height =  ViewGroup.LayoutParams.WRAP_CONTENT;
 
     public SimpleViewPager(Context context) {
         super(context);
@@ -49,10 +54,32 @@ public class SimpleViewPager extends RelativeLayout {
         super(context, attrs);
         this.context = context;
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SimpleViewPager, 0, 0);
+        int[] attrsArray = new int[] {
+                R.styleable.SimpleViewPager_forceSquare,//0
+                android.R.attr.layout_width, //1
+                android.R.attr.layout_height //2
+        };
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, attrsArray, 0, 0);
 
         try {
             forceSquare = a.getBoolean(R.styleable.SimpleViewPager_forceSquare, false);
+            layout_width = a.getLayoutDimension(1, ViewGroup.LayoutParams.MATCH_PARENT);
+            if(layout_width == ViewGroup.LayoutParams.MATCH_PARENT){
+                Log.d(TAG, "SimpleViewPager width is MATCH_PARENT");
+            }else if(layout_width == ViewGroup.LayoutParams.WRAP_CONTENT){
+                Log.d(TAG, "SimpleViewPager width is WRAP_CONTENT");
+            }else{
+                Log.d(TAG, "SimpleViewPager width is: " + layout_width);
+            }
+            layout_height = a.getLayoutDimension(2, ViewGroup.LayoutParams.MATCH_PARENT);
+            if(layout_height == ViewGroup.LayoutParams.MATCH_PARENT){
+                Log.d(TAG, "SimpleViewPager height is MATCH_PARENT");
+            }else if(layout_height == ViewGroup.LayoutParams.WRAP_CONTENT){
+                Log.d(TAG, "SimpleViewPager height is WRAP_CONTENT");
+            }else{
+                Log.d(TAG, "SimpleViewPager height is: " + layout_height);
+            }
         } finally {
             a.recycle();
         }
@@ -61,7 +88,7 @@ public class SimpleViewPager extends RelativeLayout {
     }
 
     private void setupViewPager(){
-        viewPager = new AViewPager(context);
+        viewPager = new AViewPager(context, layout_height);
         viewPager.setId(R.id.programmatic_viewpager);
         addView(viewPager);
     }
@@ -71,6 +98,7 @@ public class SimpleViewPager extends RelativeLayout {
         mode = MODE_DRAWABLES;
         this.drawables = drawables;
         adapter = new SimpleViewPagerAdapter(context, drawables);
+        adapter.setLayoutParams(layout_width, layout_height);
         viewPager.setAdapter(adapter);
     }
 
@@ -78,6 +106,7 @@ public class SimpleViewPager extends RelativeLayout {
         mode = MODE_DRAWABLES;
         this.drawables = drawables;
         adapter = new SimpleViewPagerAdapter(context, drawables);
+        adapter.setLayoutParams(layout_width, layout_height);
         if(scaleType != null) {
             adapter.setScaleType(scaleType);
         }
@@ -88,6 +117,7 @@ public class SimpleViewPager extends RelativeLayout {
         mode = MODE_DRAWABLES;
         this.drawables = drawables;
         adapter = new SimpleViewPagerAdapter(context, drawables);
+        adapter.setLayoutParams(layout_width, layout_height);
         if(scaleType != null) {
             adapter.setScaleType(scaleType);
         }
@@ -100,6 +130,7 @@ public class SimpleViewPager extends RelativeLayout {
         mode = MODE_URLS;
         this.imageUrls = imageUrls;
         adapter = new SimpleViewPagerAdapter(context, imageUrls, imageLoader);
+        adapter.setLayoutParams(layout_width, layout_height);
         viewPager.setAdapter(adapter);
     }
 
@@ -109,11 +140,21 @@ public class SimpleViewPager extends RelativeLayout {
         setupIndicator(indicatorColor, selectedIndicatorColor);
     }
 
+    public void setup(String[] imageUrls, ImageView.ScaleType scaleType, int indicatorColor, int selectedIndicatorColor, ImageLoader imageLoader) {
+        mode = MODE_URLS;
+        setup(imageUrls, imageLoader);
+        if(scaleType != null) {
+            adapter.setScaleType(scaleType);
+        }
+        setupIndicator(indicatorColor, selectedIndicatorColor);
+    }
+
     //IDs
     public void setup(int[] resourceIds){
         mode = MODE_IDS;
         this.resourceIds = resourceIds;
         adapter = new SimpleViewPagerAdapter(context, resourceIds);
+        adapter.setLayoutParams(layout_width, layout_height);
         viewPager.setAdapter(adapter);
     }
 
@@ -121,6 +162,7 @@ public class SimpleViewPager extends RelativeLayout {
         mode = MODE_IDS;
         this.resourceIds = resourceIds;
         adapter = new SimpleViewPagerAdapter(context, resourceIds);
+        adapter.setLayoutParams(layout_width, layout_height);
         if(scaleType != null) {
             adapter.setScaleType(scaleType);
         }
@@ -204,7 +246,7 @@ public class SimpleViewPager extends RelativeLayout {
 
         if(forceSquare){
             super.onMeasure(widthMeasureSpec, widthMeasureSpec);
-        }else {
+        }else if (layout_height != ViewGroup.LayoutParams.MATCH_PARENT) {
             int height = 0;
             for (int i = 0; i < getChildCount(); i++) {
                 View child = getChildAt(i);
@@ -215,6 +257,8 @@ public class SimpleViewPager extends RelativeLayout {
 
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
 
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }else{
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
     }

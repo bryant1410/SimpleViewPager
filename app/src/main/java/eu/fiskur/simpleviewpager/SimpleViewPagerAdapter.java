@@ -25,6 +25,9 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
     private ImageLoader imageLoader;
     private ImageView.ScaleType scaleType = null;
 
+    private int layout_width =  ViewGroup.LayoutParams.MATCH_PARENT;
+    private int layout_height =  ViewGroup.LayoutParams.WRAP_CONTENT;
+
     public SimpleViewPagerAdapter(Context context, String[] imageUrls, ImageLoader imageLoader) {
         mode = MODE_URLS;
         this.context = context;
@@ -44,6 +47,11 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
         this.resourceIds = resourceIds;
     }
 
+    public void setLayoutParams(int layout_width, int layout_height){
+        this.layout_width = layout_width;
+        this.layout_height = layout_height;
+    }
+
     public void setScaleType(ImageView.ScaleType scaleType){
         this.scaleType = scaleType;
     }
@@ -56,12 +64,10 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
             imageView.setImageResource(R.drawable.dummy_placeholder);
         }
 
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewPager.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.WRAP_CONTENT));
+        imageView.setLayoutParams(new LinearLayout.LayoutParams(layout_width, layout_height));
 
         if(scaleType != null){
             imageView.setScaleType(scaleType);
-        }else{
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         }
 
         imageView.setPadding(0, 0, 0, 0);
