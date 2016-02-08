@@ -1,6 +1,6 @@
 # SimpleViewPager
 
-ViewPager for Android. That view pager to display images you have to code for every project - use this instead.
+That view pager to display images you have to code for every Android project - use this instead.
 
 ## Usage
 
@@ -60,3 +60,6 @@ dependencies {
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/SimpleViewPager/releases
 
 More options at jitpack.io: https://jitpack.io/#fiskurgit/SimpleViewPager
+
+##Screenshots
+![SimpleViewPager](images/example_image1.png)
