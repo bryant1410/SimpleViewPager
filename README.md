@@ -45,22 +45,19 @@ simpleViewPager.setup(demoArray, indicatorColor, selectedIndicatorColor, new Ima
 You can also use an array of Drawables (you need to handle memory/downsizing yourself). You can also set the ScaleType for the images:
 
 ```java
-SimpleViewPager simpleViewPager = (SimpleViewPager) findViewById(R.id.simple_view_pager);
-
-int[] resourceIds = new int[]{
-        R.mipmap.image_a,
-        R.mipmap.image_b,
-        R.mipmap.image_c,
-        R.mipmap.image_d,
-        R.mipmap.image_e,
+Drawable[] drawables = new Drawable[]{
+        ContextCompat.getDrawable(this, R.drawable.a),
+        ContextCompat.getDrawable(this, R.drawable.b),
+        ContextCompat.getDrawable(this, R.drawable.c),
+        ContextCompat.getDrawable(this, R.drawable.d),
+        ContextCompat.getDrawable(this, R.drawable.e)
 };
+ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER_CROP;
 
 int indicatorColor = Color.parseColor("#ffffff");
 int selectedIndicatorColor = Color.parseColor("#fff000");
 
-ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER_INSIDE;
-
-simpleViewPager.setup(resourceIds, scaleType, indicatorColor, selectedIndicatorColor);
+simpleViewPager.setup(drawables, scaleType, indicatorColor, selectedIndicatorColor);
 ```
 
 ##Dependency
