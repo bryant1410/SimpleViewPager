@@ -18,9 +18,19 @@ import static eu.fiskur.simpleviewpager.R.drawable.circle;
 
 public class SimpleViewPager extends RelativeLayout {
 
+    private static final int MODE_URLS = 0;
+    private static final int MODE_DRAWABLES = 1;
+    private static final int MODE_IDS = 2;
+    private int mode = MODE_URLS;
+
+    private SimpleViewPagerAdapter adapter;
+
     private Context context;
     private AViewPager viewPager;
+
+    private Drawable[] drawables = null;
     private String[] imageUrls = null;
+    private int[] resourceIds = null;
 
     //Circle indicators
     private LinearLayout circleLayout;
@@ -54,42 +64,75 @@ public class SimpleViewPager extends RelativeLayout {
         viewPager = new AViewPager(context);
         viewPager.setId(R.id.programmatic_viewpager);
         addView(viewPager);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                setIndicator(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
+    //Drawables
+    public void setup(Drawable[] drawables){
+        mode = MODE_DRAWABLES;
+        this.drawables = drawables;
+        adapter = new SimpleViewPagerAdapter(context, drawables);
+        viewPager.setAdapter(adapter);
+    }
+
+    public void setup(Drawable[] drawables, ImageView.ScaleType scaleType){
+        mode = MODE_DRAWABLES;
+        this.drawables = drawables;
+        adapter = new SimpleViewPagerAdapter(context, drawables);
+        if(scaleType != null) {
+            adapter.setScaleType(scaleType);
+        }
+        viewPager.setAdapter(adapter);
+    }
+
+    public void setup(Drawable[] drawables, ImageView.ScaleType scaleType, int indicatorColor, int selectedIndicatorColor){
+        mode = MODE_DRAWABLES;
+        this.drawables = drawables;
+        adapter = new SimpleViewPagerAdapter(context, drawables);
+        if(scaleType != null) {
+            adapter.setScaleType(scaleType);
+        }
+        viewPager.setAdapter(adapter);
+        setupIndicator(indicatorColor, selectedIndicatorColor);
+    }
+
+    //Urls
     public void setup(String[] imageUrls, ImageLoader imageLoader) {
+        mode = MODE_URLS;
         this.imageUrls = imageUrls;
-        SimpleViewPagerAdapter adapter = new SimpleViewPagerAdapter(context, imageUrls, imageLoader);
+        adapter = new SimpleViewPagerAdapter(context, imageUrls, imageLoader);
         viewPager.setAdapter(adapter);
     }
 
     public void setup(String[] imageUrls, int indicatorColor, int selectedIndicatorColor, ImageLoader imageLoader) {
-        this.imageUrls = imageUrls;
-        SimpleViewPagerAdapter adapter = new SimpleViewPagerAdapter(context, imageUrls, imageLoader);
-        viewPager.setAdapter(adapter);
-        showIndicator(indicatorColor, selectedIndicatorColor);
+        mode = MODE_URLS;
+        setup(imageUrls, imageLoader);
+        setupIndicator(indicatorColor, selectedIndicatorColor);
     }
 
-    public void showIndicator(int unselectedColor, int selectedColor){
-        if(imageUrls == null || selectedCircle != null){
-            return;
-        }
+    //IDs
+    public void setup(int[] resourceIds){
+        mode = MODE_IDS;
+        this.resourceIds = resourceIds;
+        adapter = new SimpleViewPagerAdapter(context, resourceIds);
+        viewPager.setAdapter(adapter);
+    }
 
+    public void setup(int[] resourceIds, ImageView.ScaleType scaleType){
+        mode = MODE_IDS;
+        this.resourceIds = resourceIds;
+        adapter = new SimpleViewPagerAdapter(context, resourceIds);
+        if(scaleType != null) {
+            adapter.setScaleType(scaleType);
+        }
+        viewPager.setAdapter(adapter);
+    }
+
+    public void setup(int[] resourceIds, ImageView.ScaleType scaleType, int indicatorColor, int selectedIndicatorColor){
+        setup(resourceIds, scaleType);
+        setupIndicator(indicatorColor, selectedIndicatorColor);
+    }
+
+    public void setupIndicator(int unselectedColor, int selectedColor){
         selectedCircle = ContextCompat.getDrawable(context, circle);
         selectedCircle.setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
 
@@ -109,7 +152,7 @@ public class SimpleViewPager extends RelativeLayout {
 
         addView(circleLayout);
 
-        for(int i = 0 ; i < imageUrls.length; i++){
+        for(int i = 0 ; i < adapter.getCount(); i++){
             ImageView circle = new ImageView(context);
             circle.setImageDrawable(unselectedCircle);
             circle.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -119,10 +162,29 @@ public class SimpleViewPager extends RelativeLayout {
         }
 
         setIndicator(0);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setIndicator(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void setIndicator(int index){
-        if(index >= imageUrls.length) {
+        int imageCount = adapter.getCount();
+
+        if(index >= imageCount) {
             return;
         }
 
@@ -132,7 +194,7 @@ public class SimpleViewPager extends RelativeLayout {
             ((ImageView) circleLayout.getChildAt(index - 1)).setImageDrawable(unselectedCircle);
         }
 
-        if(index < imageUrls.length - 1){
+        if(index < imageCount - 1){
             ((ImageView) circleLayout.getChildAt(index + 1)).setImageDrawable(unselectedCircle);
         }
     }

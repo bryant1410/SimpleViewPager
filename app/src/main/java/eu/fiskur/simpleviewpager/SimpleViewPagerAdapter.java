@@ -1,6 +1,7 @@
 package eu.fiskur.simpleviewpager;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -10,36 +11,93 @@ import android.widget.LinearLayout;
 
 public class SimpleViewPagerAdapter extends PagerAdapter {
 
+    private static final int MODE_URLS = 0;
+    private static final int MODE_DRAWABLES = 1;
+    private static final int MODE_IDS = 2;
+    private int mode = MODE_URLS;
+
     private Context context;
+
     private String[] imageUrls;
+    private Drawable[] drawables;
+    private int[] resourceIds = null;
+
     private ImageLoader imageLoader;
+    private ImageView.ScaleType scaleType = null;
 
     public SimpleViewPagerAdapter(Context context, String[] imageUrls, ImageLoader imageLoader) {
+        mode = MODE_URLS;
         this.context = context;
         this.imageUrls = imageUrls;
         this.imageLoader = imageLoader;
+    }
+
+    public SimpleViewPagerAdapter(Context context, Drawable[] drawables) {
+        mode = MODE_DRAWABLES;
+        this.context = context;
+        this.drawables = drawables;
+    }
+
+    public SimpleViewPagerAdapter(Context context, int[] resourceIds) {
+        mode = MODE_IDS;
+        this.context = context;
+        this.resourceIds = resourceIds;
+    }
+
+    public void setScaleType(ImageView.ScaleType scaleType){
+        this.scaleType = scaleType;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView imageView = new ImageView(context);
 
-        imageView.setImageResource(R.drawable.dummy_placeholder);
+        if(mode == MODE_URLS){
+            imageView.setImageResource(R.drawable.dummy_placeholder);
+        }
 
         imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewPager.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.WRAP_CONTENT));
-        //imageView.setAdjustViewBounds(true);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        if(scaleType != null){
+            imageView.setScaleType(scaleType);
+        }else{
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        }
+
         imageView.setPadding(0, 0, 0, 0);
 
-        String url = imageUrls[position];
-        container.addView(imageView);
-        imageLoader.loadImage(imageView, url);
+        switch(mode){
+            case MODE_URLS:
+                String url = imageUrls[position];
+                container.addView(imageView);
+                imageLoader.loadImage(imageView, url);
+                break;
+            case MODE_DRAWABLES:
+                imageView.setImageDrawable(drawables[position]);
+                container.addView(imageView);
+                break;
+            case MODE_IDS:
+                imageView.setImageResource(resourceIds[position]);
+                container.addView(imageView);
+                break;
+        }
+
         return imageView;
     }
 
     @Override
     public int getCount() {
-        return imageUrls.length;
+        switch(mode){
+            case MODE_URLS:
+                return imageUrls.length;
+            case MODE_DRAWABLES:
+                return drawables.length;
+            case MODE_IDS:
+                return resourceIds.length;
+            default:
+                return 0;
+        }
+
     }
 
     @Override
