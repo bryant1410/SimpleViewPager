@@ -86,6 +86,8 @@ int selectedIndicatorColor = Color.parseColor("#fff000");
 simpleViewPager.setup(drawables, scaleType, indicatorColor, selectedIndicatorColor);
 ```
 
+When your fragment/activity is done be sure to call ```simpleViewPager.clearListeners()``` to avoid leaks.
+
 ##Dependency
 
 Add jitpack.io to your root build.gradle, eg:
