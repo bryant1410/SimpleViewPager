@@ -86,7 +86,9 @@ int selectedIndicatorColor = Color.parseColor("#fff000");
 simpleViewPager.setup(drawables, scaleType, indicatorColor, selectedIndicatorColor);
 ```
 
-When your fragment/activity is done be sure to call ```simpleViewPager.clearListeners()``` to avoid leaks.
+Add a ViewPager.OnPageChangeListener if needed: ```simpleViewPager(someOnPageChangeListener)```
+
+Always call ```simpleViewPager.clearListeners()``` when the activity/fragment is destroyed to avoid leaks.
 
 ##Dependency
 
