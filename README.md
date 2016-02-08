@@ -6,8 +6,6 @@ That image ViewPager you have to code for every Android project - use this inste
 Basic demo available on the Play Store:  
 <a href="https://play.google.com/store/apps/details?id=eu.fiskur.simpleviewpagerdemo&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" width=175 /></a>
 
-
-
 ## Usage
 
 Add to your Android layout xml:
@@ -19,11 +17,11 @@ Add to your Android layout xml:
     />
 ```
 
-Then add your images:
+Then add your images, and setup [Picasso](http://square.github.io/picasso/) ([Glide](https://github.com/bumptech/glide), , [Fresco](https://github.com/facebook/fresco), or whatever):
 ```java
 SimpleViewPager simpleViewPager = (SimpleViewPager) findViewById(R.id.simple_view_pager);
 
-String[] demoArray = new String[]{
+String[] demoUrlArray = new String[]{
         "http://fiskur.eu/apps/simpleviewpagerdemo/001.jpg",
         "http://fiskur.eu/apps/simpleviewpagerdemo/002.jpg",
         "http://fiskur.eu/apps/simpleviewpagerdemo/003.jpg",
@@ -34,16 +32,44 @@ String[] demoArray = new String[]{
 int indicatorColor = Color.parseColor("#ffffff");
 int selectedIndicatorColor = Color.parseColor("#fff000");
 
-simpleViewPager.setup(demoArray, indicatorColor, selectedIndicatorColor, new ImageLoader() {
+simpleViewPager.setup(demoUrlArray, indicatorColor, selectedIndicatorColor, new ImageLoader() {
     @Override
     public void loadImage(ImageView view, String url) {
-        Picasso.with(MainActivity.this).load(url).into(view);
+        Picasso.with(MainActivity.this)
+            .load(url)
+            .into(view);
     }
 });
 ```
 
-You can also use an array of Drawables (you need to handle memory/downsizing yourself). You can also set the ScaleType for the images:
+If you're using resources that ship with you app make life easy and let Picasso handle the memory management/downsampling and use an array of resources IDs. You can also set the ScaleType for the images (or again; leave that to [Picasso in the callback](http://square.github.io/picasso/#features)).  
+  
+Using resources:
+```java
+int[] resourceIds = new int[]{
+    R.drawable.a,
+    R.drawable.b,
+    R.drawable.c,
+    R.drawable.d,
+    R.drawable.e
+}
 
+int indicatorColor = Color.parseColor("#ffffff");
+int selectedIndicatorColor = Color.parseColor("#fff000");
+
+simpleViewPager.setup(resourceIds, indicatorColor, selectedIndicatorColor, new ImageResourceLoader() {
+    @Override
+    public void loadImageResource(ImageView view, int id) {
+        Picasso.with(MainActivity.this)
+            .load(id)
+            .resize(screenWidth, screenWidth)
+            .centerCrop()
+            .into(view);
+    }
+});
+```
+
+Using drawables (not advised, you'll have memory issues):
 ```java
 Drawable[] drawables = new Drawable[]{
         ContextCompat.getDrawable(this, R.drawable.a),
@@ -78,7 +104,7 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.fiskurgit:SimpleViewPager:1.0.1'
+    compile 'com.github.fiskurgit:SimpleViewPager:1.0.2'
 }
 ```
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/SimpleViewPager/releases
