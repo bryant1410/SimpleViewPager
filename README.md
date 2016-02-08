@@ -1,6 +1,6 @@
 # SimpleViewPager
 
-That view pager to display images you have to code for every Android project - use this instead.
+That image ViewPager you have to code for every Android project - use this instead.
 
 ## Usage
 
