@@ -37,6 +37,8 @@ public class SimpleViewPager extends RelativeLayout {
   private Drawable selectedCircle = null;
   private Drawable unselectedCircle = null;
 
+  private ViewPager.OnPageChangeListener onPageChangeListener = null;
+
   private boolean forceSquare = false;
 
   public SimpleViewPager(Context context) {
@@ -112,7 +114,7 @@ public class SimpleViewPager extends RelativeLayout {
     setupIndicator(indicatorColor, selectedIndicatorColor);
   }
 
-  //IDs
+  //IDs - use with Picasso
   public void setup(int[] resourceIds, ImageResourceLoader imageResourceLoader) {
     mode = MODE_IDS;
     this.resourceIds = resourceIds;
@@ -130,9 +132,22 @@ public class SimpleViewPager extends RelativeLayout {
     viewPager.setAdapter(adapter);
   }
 
+  public void setup(int[] resourceIds, int indicatorColor, int selectedIndicatorColor, ImageResourceLoader imageResourceLoader) {
+    setup(resourceIds, null, imageResourceLoader);
+    setupIndicator(indicatorColor, selectedIndicatorColor);
+  }
+
   public void setup(int[] resourceIds, ImageView.ScaleType scaleType, int indicatorColor, int selectedIndicatorColor, ImageResourceLoader imageResourceLoader) {
     setup(resourceIds, scaleType, imageResourceLoader);
     setupIndicator(indicatorColor, selectedIndicatorColor);
+  }
+
+  public void setOnPageChangeListener( ViewPager.OnPageChangeListener onPageChangeListener){
+    viewPager.addOnPageChangeListener(onPageChangeListener);
+  }
+
+  public void clearListeners(){
+    viewPager.clearOnPageChangeListeners();
   }
 
   public void setupIndicator(int unselectedColor, int selectedColor) {
