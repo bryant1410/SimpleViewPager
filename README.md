@@ -31,7 +31,6 @@ int selectedIndicatorColor = Color.parseColor("#fff000");
 simpleViewPager.setup(demoArray, indicatorColor, selectedIndicatorColor, new ImageLoader() {
     @Override
     public void loadImage(ImageView view, String url) {
-        l("Load image: " + url + " into image view");
         Picasso.with(MainActivity.this).load(url).into(view);
     }
 });
