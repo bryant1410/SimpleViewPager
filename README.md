@@ -36,6 +36,8 @@ simpleViewPager.setup(demoArray, indicatorColor, selectedIndicatorColor, new Ima
 });
 ```
 
+You can also use an array of Drawables, or an integer array of drawable resource IDs.
+
 ##Dependency
 
 Add jitpack.io to your root build.gradle, eg:
