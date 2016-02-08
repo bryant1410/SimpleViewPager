@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+/*
+    This forces the viewpager to draw correctly based on the height of the largest child.
+ */
 public class AViewPager extends ViewPager {
 
     public AViewPager(Context context) {

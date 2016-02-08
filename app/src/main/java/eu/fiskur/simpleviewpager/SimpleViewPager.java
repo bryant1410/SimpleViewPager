@@ -75,7 +75,7 @@ public class SimpleViewPager extends RelativeLayout {
     public void setup(String[] imageUrls, ImageLoader imageLoader) {
         this.imageUrls = imageUrls;
         SimpleViewPagerAdapter adapter = new SimpleViewPagerAdapter(context, imageUrls, imageLoader);
-        viewPager.setAdapter(adapter); 
+        viewPager.setAdapter(adapter);
     }
 
     public void setup(String[] imageUrls, int indicatorColor, int selectedIndicatorColor, ImageLoader imageLoader) {
