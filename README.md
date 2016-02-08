@@ -17,7 +17,7 @@ Add to your Android layout xml:
     />
 ```
 
-Then add your images, and setup [Picasso](http://square.github.io/picasso/) ( or [Glide](https://github.com/bumptech/glide), , [Fresco](https://github.com/facebook/fresco), or whatever):
+Then add your images, and setup [Picasso](http://square.github.io/picasso/) ( or [Glide](https://github.com/bumptech/glide), [Fresco](https://github.com/facebook/fresco), or whatever):
 ```java
 SimpleViewPager simpleViewPager = (SimpleViewPager) findViewById(R.id.simple_view_pager);
 
