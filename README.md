@@ -36,7 +36,7 @@ simpleViewPager.setup(demoArray, indicatorColor, selectedIndicatorColor, new Ima
 });
 ```
 
-You can also use an array of Drawables, or an integer array of drawable resource IDs, as well as set the ScaleType for the images:
+You can also use an array of Drawables (you need to handle memory/downsizing yourself). You can also set the ScaleType for the images:
 
 ```java
 SimpleViewPager simpleViewPager = (SimpleViewPager) findViewById(R.id.simple_view_pager);
@@ -51,6 +51,7 @@ int[] resourceIds = new int[]{
 
 int indicatorColor = Color.parseColor("#ffffff");
 int selectedIndicatorColor = Color.parseColor("#fff000");
+
 ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER_INSIDE;
 
 simpleViewPager.setup(resourceIds, scaleType, indicatorColor, selectedIndicatorColor);
