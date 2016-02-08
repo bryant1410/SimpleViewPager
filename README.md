@@ -78,6 +78,7 @@ Drawable[] drawables = new Drawable[]{
         ContextCompat.getDrawable(this, R.drawable.d),
         ContextCompat.getDrawable(this, R.drawable.e)
 };
+
 ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER_CROP;
 
 int indicatorColor = Color.parseColor("#ffffff");
