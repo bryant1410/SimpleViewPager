@@ -11,109 +11,102 @@ import android.widget.LinearLayout;
 
 public class SimpleViewPagerAdapter extends PagerAdapter {
 
-    private static final int MODE_URLS = 0;
-    private static final int MODE_DRAWABLES = 1;
-    private static final int MODE_IDS = 2;
-    private int mode = MODE_URLS;
+  private static final int MODE_URLS = 0;
+  private static final int MODE_DRAWABLES = 1;
+  private static final int MODE_IDS = 2;
+  private int mode = MODE_URLS;
 
-    private Context context;
+  private Context context;
 
-    private String[] imageUrls;
-    private Drawable[] drawables;
-    private int[] resourceIds = null;
+  private String[] imageUrls;
+  private Drawable[] drawables;
+  private int[] resourceIds = null;
 
-    private ImageLoader imageLoader;
-    private ImageView.ScaleType scaleType = null;
+  private ImageURLLoader imageURLLoader;
+  private ImageResourceLoader imageResourceLoader;
+  private ImageView.ScaleType scaleType = null;
 
-    private int layout_width =  ViewGroup.LayoutParams.MATCH_PARENT;
-    private int layout_height =  ViewGroup.LayoutParams.WRAP_CONTENT;
+  public SimpleViewPagerAdapter(Context context, String[] imageUrls, ImageURLLoader imageURLLoader) {
+    mode = MODE_URLS;
+    this.context = context;
+    this.imageUrls = imageUrls;
+    this.imageURLLoader = imageURLLoader;
+  }
 
-    public SimpleViewPagerAdapter(Context context, String[] imageUrls, ImageLoader imageLoader) {
-        mode = MODE_URLS;
-        this.context = context;
-        this.imageUrls = imageUrls;
-        this.imageLoader = imageLoader;
+  public SimpleViewPagerAdapter(Context context, Drawable[] drawables) {
+    mode = MODE_DRAWABLES;
+    this.context = context;
+    this.drawables = drawables;
+  }
+
+  public SimpleViewPagerAdapter(Context context, int[] resourceIds, ImageResourceLoader imageResourceLoader) {
+    mode = MODE_IDS;
+    this.context = context;
+    this.resourceIds = resourceIds;
+    this.imageResourceLoader = imageResourceLoader;
+  }
+
+  public void setScaleType(ImageView.ScaleType scaleType) {
+    this.scaleType = scaleType;
+  }
+
+  @Override public Object instantiateItem(ViewGroup container, int position) {
+    ImageView imageView = new ImageView(context);
+
+    if (mode == MODE_URLS) {
+      imageView.setImageResource(R.drawable.dummy_placeholder);
     }
 
-    public SimpleViewPagerAdapter(Context context, Drawable[] drawables) {
-        mode = MODE_DRAWABLES;
-        this.context = context;
-        this.drawables = drawables;
+    imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewPager.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.WRAP_CONTENT));
+
+    if (scaleType != null) {
+      imageView.setScaleType(scaleType);
+    } else {
+      imageView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
 
-    public SimpleViewPagerAdapter(Context context, int[] resourceIds) {
-        mode = MODE_IDS;
-        this.context = context;
-        this.resourceIds = resourceIds;
+    imageView.setPadding(0, 0, 0, 0);
+
+    switch (mode) {
+      case MODE_URLS:
+        container.addView(imageView);
+        imageURLLoader.loadImage(imageView, imageUrls[position]);
+        break;
+      case MODE_DRAWABLES:
+        imageView.setImageDrawable(drawables[position]);
+        container.addView(imageView);
+        break;
+      case MODE_IDS:
+        container.addView(imageView);
+        imageResourceLoader.loadImageResource(imageView, resourceIds[position]);
+        break;
     }
 
-    public void setLayoutParams(int layout_width, int layout_height){
-        this.layout_width = layout_width;
-        this.layout_height = layout_height;
+    return imageView;
+  }
+
+  @Override public int getCount() {
+    switch (mode) {
+      case MODE_URLS:
+        return imageUrls.length;
+      case MODE_DRAWABLES:
+        return drawables.length;
+      case MODE_IDS:
+        return resourceIds.length;
+      default:
+        return 0;
     }
+  }
 
-    public void setScaleType(ImageView.ScaleType scaleType){
-        this.scaleType = scaleType;
+  @Override public boolean isViewFromObject(View view, Object object) {
+    if (view == ((ImageView) object)) {
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        ImageView imageView = new ImageView(context);
-
-        if(mode == MODE_URLS){
-            imageView.setImageResource(R.drawable.dummy_placeholder);
-        }
-
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(layout_width, layout_height));
-
-        if(scaleType != null){
-            imageView.setScaleType(scaleType);
-        }
-
-        imageView.setPadding(0, 0, 0, 0);
-
-        switch(mode){
-            case MODE_URLS:
-                String url = imageUrls[position];
-                container.addView(imageView);
-                imageLoader.loadImage(imageView, url);
-                break;
-            case MODE_DRAWABLES:
-                imageView.setImageDrawable(drawables[position]);
-                container.addView(imageView);
-                break;
-            case MODE_IDS:
-                imageView.setImageResource(resourceIds[position]);
-                container.addView(imageView);
-                break;
-        }
-
-        return imageView;
-    }
-
-    @Override
-    public int getCount() {
-        switch(mode){
-            case MODE_URLS:
-                return imageUrls.length;
-            case MODE_DRAWABLES:
-                return drawables.length;
-            case MODE_IDS:
-                return resourceIds.length;
-            default:
-                return 0;
-        }
-
-    }
-
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        if (view == ((ImageView) object)) return true;
-        else return false;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        // super.destroyItem(container, position, object);
-    }
+  @Override public void destroyItem(ViewGroup container, int position, Object object) {
+    //container.removeViewAt(position);
+  }
 }
