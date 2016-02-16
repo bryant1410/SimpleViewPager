@@ -1,5 +1,5 @@
 # SimpleViewPager
-[![Build Status](https://travis-ci.org/fiskurgit/SimpleViewPager.svg?branch=master)](https://travis-ci.org/fiskurgit/SimpleViewPager)
+[![Build Status](https://travis-ci.org/fiskurgit/SimpleViewPager.svg?branch=master)](https://travis-ci.org/fiskurgit/SimpleViewPager) [![Release](https://jitpack.io/v/fiskurgit/SimpleViewPager.svg)](https://jitpack.io/#fiskurgit/SimpleViewPager)
 
 That image ViewPager you have to code for every Android project - use this instead.
 
