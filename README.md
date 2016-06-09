@@ -50,7 +50,7 @@ simpleViewPager.setImageUrls(demoUrlArray, new ImageURLLoader() {
 //optional:
 int indicatorColor = Color.parseColor("#ffffff");
 int selectedIndicatorColor = Color.parseColor("#fff000");
-simpleViewPager.setupIndicator(indicatorColor, selectedIndicatorColor);
+simpleViewPager.showIndicator(indicatorColor, selectedIndicatorColor);
 
 //optional:
 simpleViewPager.setScaleType(ImageView.ScaleType.FIT_XY);
