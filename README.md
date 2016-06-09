@@ -43,10 +43,7 @@ int[] resourceIds = new int[]{
 simpleViewPager.setImageUrls(demoUrlArray, new ImageURLLoader() {
                 @Override
                 public void loadImage(ImageView view, String url) {
-                    l("load Image: " + url + " into view: " + view.toString());
-                    Picasso.with(MainActivity.this)
-                            .load(url)
-                            .into(view);
+                    Picasso.with(MainActivity.this).load(url).into(view);
                 }
             });
 
