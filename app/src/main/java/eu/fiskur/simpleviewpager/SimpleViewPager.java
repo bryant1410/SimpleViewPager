@@ -95,8 +95,7 @@ public class SimpleViewPager extends RelativeLayout {
         selectedCircle.setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
 
         unselectedCircle = ContextCompat.getDrawable(context, circle);
-        unselectedCircle.setColorFilter(
-                new PorterDuffColorFilter(unselectedColor, PorterDuff.Mode.MULTIPLY));
+        unselectedCircle.setColorFilter(new PorterDuffColorFilter(unselectedColor, PorterDuff.Mode.MULTIPLY));
 
         float scale = getResources().getDisplayMetrics().density;
         int padding = (int) (5 * scale + 0.5f);
@@ -114,8 +113,7 @@ public class SimpleViewPager extends RelativeLayout {
         for (int i = 0; i < adapter.getCount(); i++) {
             ImageView circle = new ImageView(context);
             circle.setImageDrawable(unselectedCircle);
-            circle.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            circle.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             circle.setAdjustViewBounds(true);
             circle.setPadding(padding, 0, padding, 0);
             circleLayout.addView(circle);
