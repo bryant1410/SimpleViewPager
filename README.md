@@ -29,23 +29,8 @@ String[] demoUrlArray = new String[]{
         "http://fiskur.eu/apps/simpleviewpagerdemo/005.jpg",
 };
 
-int indicatorColor = Color.parseColor("#ffffff");
-int selectedIndicatorColor = Color.parseColor("#fff000");
-
-simpleViewPager.setup(demoUrlArray, indicatorColor, selectedIndicatorColor, new ImageURLLoader() {
-    @Override
-    public void loadImage(ImageView view, String url) {
-        Picasso.with(MainActivity.this)
-            .load(url)
-            .into(view);
-    }
-});
-```
-
-If you're using resources that ship with your app make life easy and let Picasso handle the memory management/downsampling and use an array of resources IDs. You can also set the ScaleType for the images (or again; leave that to [Picasso in the callback](http://square.github.io/picasso/#features)).  
-  
-Using resources:
-```java
+//or use resources shipped with the app. eg:
+/*
 int[] resourceIds = new int[]{
     R.drawable.a,
     R.drawable.b,
@@ -53,41 +38,27 @@ int[] resourceIds = new int[]{
     R.drawable.d,
     R.drawable.e
 }
+*/
 
+simpleViewPager.setImageUrls(demoUrlArray, new ImageURLLoader() {
+                @Override
+                public void loadImage(ImageView view, String url) {
+                    Picasso.with(MainActivity.this).load(url).into(view);
+                }
+            });
+
+//optional:
 int indicatorColor = Color.parseColor("#ffffff");
 int selectedIndicatorColor = Color.parseColor("#fff000");
+simpleViewPager.showIndicator(indicatorColor, selectedIndicatorColor);
 
-simpleViewPager.setup(resourceIds, indicatorColor, selectedIndicatorColor, new ImageResourceLoader() {
-    @Override
-    public void loadImageResource(ImageView view, int id) {
-        Picasso.with(MainActivity.this)
-            .load(id)
-            .resize(screenWidth, screenWidth)
-            .centerCrop()
-            .into(view);
-    }
-});
+//optional:
+simpleViewPager.setScaleType(ImageView.ScaleType.FIT_XY);
 ```
 
-Using drawables (not advised, you'll have memory issues):
-```java
-Drawable[] drawables = new Drawable[]{
-        ContextCompat.getDrawable(this, R.drawable.a),
-        ContextCompat.getDrawable(this, R.drawable.b),
-        ContextCompat.getDrawable(this, R.drawable.c),
-        ContextCompat.getDrawable(this, R.drawable.d),
-        ContextCompat.getDrawable(this, R.drawable.e)
-};
+If you're using resources that ship with your app make life easy and let Picasso handle the memory management/downsampling and use an array of resources IDs. You can also set the ScaleType for the images (or again; leave that to [Picasso in the callback](http://square.github.io/picasso/#features)).  
 
-ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER_CROP;
-
-int indicatorColor = Color.parseColor("#ffffff");
-int selectedIndicatorColor = Color.parseColor("#fff000");
-
-simpleViewPager.setup(drawables, scaleType, indicatorColor, selectedIndicatorColor);
-```
-
-Add a ViewPager.OnPageChangeListener if needed: ```simpleViewPager(someOnPageChangeListener)```
+Add a ViewPager.OnPageChangeListener if needed: ```simpleViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {...});```
 
 Always call ```simpleViewPager.clearListeners()``` when the activity/fragment is destroyed to avoid leaks.
 
@@ -109,7 +80,7 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.fiskurgit:SimpleViewPager:1.0.2'
+    compile 'com.github.fiskurgit:SimpleViewPager:1.0.3'
 }
 ```
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/SimpleViewPager/releases
