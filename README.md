@@ -32,7 +32,7 @@ String[] demoUrlArray = new String[]{
 int indicatorColor = Color.parseColor("#ffffff");
 int selectedIndicatorColor = Color.parseColor("#fff000");
 
-simpleViewPager.setup(demoUrlArray, indicatorColor, selectedIndicatorColor, new ImageLoader() {
+simpleViewPager.setup(demoUrlArray, indicatorColor, selectedIndicatorColor, new ImageURLLoader() {
     @Override
     public void loadImage(ImageView view, String url) {
         Picasso.with(MainActivity.this)
