@@ -58,7 +58,7 @@ simpleViewPager.setScaleType(ImageView.ScaleType.FIT_XY);
 
 If you're using resources that ship with your app make life easy and let Picasso handle the memory management/downsampling and use an array of resources IDs. You can also set the ScaleType for the images (or again; leave that to [Picasso in the callback](http://square.github.io/picasso/#features)).  
 
-Add a ViewPager.OnPageChangeListener if needed: ```simpleViewPager(someOnPageChangeListener)```
+Add a ViewPager.OnPageChangeListener if needed: ```simpleViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {...});```
 
 Always call ```simpleViewPager.clearListeners()``` when the activity/fragment is destroyed to avoid leaks.
 
