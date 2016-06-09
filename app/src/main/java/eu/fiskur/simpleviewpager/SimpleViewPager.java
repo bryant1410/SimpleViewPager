@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +21,6 @@ public class SimpleViewPager extends RelativeLayout {
     private Context context;
     private ViewPager viewPager;
 
-    private Drawable[] drawables = null;
     private String[] imageUrls = null;
     private int[] resourceIds = null;
 
@@ -62,69 +60,26 @@ public class SimpleViewPager extends RelativeLayout {
         addView(viewPager);
     }
 
-    //Drawables - not advised, but I'll leave it in.
-    //if you're using local images use the R.drawable resource instead and let Picasso do the loading
-    public void setup(Drawable[] drawables) {
-        this.drawables = drawables;
-        adapter = new SimpleViewPagerAdapter(context, drawables);
-        viewPager.setAdapter(adapter);
-    }
-
-    public void setup(Drawable[] drawables, ImageView.ScaleType scaleType) {
-        this.drawables = drawables;
-        adapter = new SimpleViewPagerAdapter(context, drawables);
-        if (scaleType != null) {
-            adapter.setScaleType(scaleType);
-        }
-        viewPager.setAdapter(adapter);
-    }
-
-    public void setup(Drawable[] drawables, ImageView.ScaleType scaleType, int indicatorColor, int selectedIndicatorColor) {
-        this.drawables = drawables;
-        adapter = new SimpleViewPagerAdapter(context, drawables);
-        if (scaleType != null) {
-            adapter.setScaleType(scaleType);
-        }
-        viewPager.setAdapter(adapter);
-        setupIndicator(indicatorColor, selectedIndicatorColor);
-    }
-
-    //Urls for use with Picasso, Glide, or similar.
-    public void setup(String[] imageUrls, ImageURLLoader imageURLLoader) {
+    public void setImageUrls(String[] imageUrls, ImageURLLoader imageURLLoader){
         this.imageUrls = imageUrls;
         adapter = new SimpleViewPagerAdapter(context, imageUrls, imageURLLoader);
         viewPager.setAdapter(adapter);
     }
 
-    public void setup(String[] imageUrls, int indicatorColor, int selectedIndicatorColor, ImageURLLoader imageURLLoader) {
-        setup(imageUrls, imageURLLoader);
-        setupIndicator(indicatorColor, selectedIndicatorColor);
-    }
-
-    //IDs - use with Picasso
-    public void setup(int[] resourceIds, ImageResourceLoader imageResourceLoader) {
+    public void setImageIds(int[] resourceIds, ImageResourceLoader imageResourceLoader){
         this.resourceIds = resourceIds;
         adapter = new SimpleViewPagerAdapter(context, resourceIds, imageResourceLoader);
         viewPager.setAdapter(adapter);
     }
 
-    public void setup(int[] resourceIds, ImageView.ScaleType scaleType, ImageResourceLoader imageResourceLoader) {
-        this.resourceIds = resourceIds;
-        adapter = new SimpleViewPagerAdapter(context, resourceIds, imageResourceLoader);
-        if (scaleType != null) {
+    public void showIndicator(int indicatorColor, int selectedIndicatorColor){
+        setupIndicator(indicatorColor, selectedIndicatorColor);
+    }
+
+    public void setScaleType(ImageView.ScaleType scaleType){
+        if(adapter != null){
             adapter.setScaleType(scaleType);
         }
-        viewPager.setAdapter(adapter);
-    }
-
-    public void setup(int[] resourceIds, int indicatorColor, int selectedIndicatorColor, ImageResourceLoader imageResourceLoader) {
-        setup(resourceIds, null, imageResourceLoader);
-        setupIndicator(indicatorColor, selectedIndicatorColor);
-    }
-
-    public void setup(int[] resourceIds, ImageView.ScaleType scaleType, int indicatorColor, int selectedIndicatorColor, ImageResourceLoader imageResourceLoader) {
-        setup(resourceIds, scaleType, imageResourceLoader);
-        setupIndicator(indicatorColor, selectedIndicatorColor);
     }
 
     public void setOnPageChangeListener( ViewPager.OnPageChangeListener onPageChangeListener){
