@@ -1,5 +1,6 @@
 # SimpleViewPager
 [![Release](https://jitpack.io/v/fiskurgit/SimpleViewPager.svg)](https://jitpack.io/#fiskurgit/SimpleViewPager) [![Build Status](https://travis-ci.org/fiskurgit/SimpleViewPager.svg?branch=master)](https://travis-ci.org/fiskurgit/SimpleViewPager)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a722e64c34ce451381b0bfbd0e26e068)](https://www.codacy.com/app/fiskur/SimpleViewPager?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fiskurgit/SimpleViewPager&amp;utm_campaign=Badge_Grade)
 
 That image ViewPager you have to code for every Android project - use this instead.
 
