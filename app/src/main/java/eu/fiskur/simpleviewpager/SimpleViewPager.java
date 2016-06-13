@@ -21,16 +21,11 @@ public class SimpleViewPager extends RelativeLayout {
     private Context context;
     private ViewPager viewPager;
 
-    private String[] imageUrls = null;
-    private int[] resourceIds = null;
-
     //Circle indicators
     private LinearLayout circleLayout;
     private Drawable selectedCircle = null;
     private Drawable unselectedCircle = null;
-
-    private ViewPager.OnPageChangeListener onPageChangeListener = null;
-
+    
     private boolean forceSquare = false;
 
     public SimpleViewPager(Context context) {
@@ -61,13 +56,11 @@ public class SimpleViewPager extends RelativeLayout {
     }
 
     public void setImageUrls(String[] imageUrls, ImageURLLoader imageURLLoader){
-        this.imageUrls = imageUrls;
         adapter = new SimpleViewPagerAdapter(context, imageUrls, imageURLLoader);
         viewPager.setAdapter(adapter);
     }
 
     public void setImageIds(int[] resourceIds, ImageResourceLoader imageResourceLoader){
-        this.resourceIds = resourceIds;
         adapter = new SimpleViewPagerAdapter(context, resourceIds, imageResourceLoader);
         viewPager.setAdapter(adapter);
     }
