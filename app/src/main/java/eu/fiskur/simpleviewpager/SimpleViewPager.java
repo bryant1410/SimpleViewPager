@@ -25,7 +25,7 @@ public class SimpleViewPager extends RelativeLayout {
     private LinearLayout circleLayout;
     private Drawable selectedCircle = null;
     private Drawable unselectedCircle = null;
-    
+
     private boolean forceSquare = false;
 
     public SimpleViewPager(Context context) {
@@ -117,7 +117,7 @@ public class SimpleViewPager extends RelativeLayout {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                //unused
             }
 
             @Override public void onPageSelected(int position) {
@@ -125,7 +125,7 @@ public class SimpleViewPager extends RelativeLayout {
             }
 
             @Override public void onPageScrollStateChanged(int state) {
-
+                //unused
             }
         });
     }
