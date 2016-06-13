@@ -23,7 +23,7 @@ public class AViewPager extends ViewPager {
             if(h > height) height = h;
         }
 
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int newHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+        super.onMeasure(widthMeasureSpec, newHeight);
     }
 }

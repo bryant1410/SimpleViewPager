@@ -80,6 +80,8 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
         container.addView(imageView);
         imageResourceLoader.loadImageResource(imageView, resourceIds[position]);
         break;
+      default:
+        //unused
     }
 
     return imageView;
@@ -99,11 +101,7 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
   }
 
   @Override public boolean isViewFromObject(View view, Object object) {
-    if (view == ((ImageView) object)) {
-      return true;
-    } else {
-      return false;
-    }
+    return view == ((ImageView) object);
   }
 
   @Override public void destroyItem(ViewGroup container, int position, Object object) {
