@@ -9,21 +9,22 @@ import android.view.View;
  */
 public class AViewPager extends ViewPager {
 
-    public AViewPager(Context context) {
-        super(context);
+  public AViewPager(Context context) {
+    super(context);
+  }
+
+  @Override
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    int height = 0;
+    for (int i = 0; i < getChildCount(); i++) {
+      View child = getChildAt(i);
+      child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+      int h = child.getMeasuredHeight();
+      if (h > height)
+        height = h;
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int height = 0;
-        for(int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
-            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-            int h = child.getMeasuredHeight();
-            if(h > height) height = h;
-        }
-
-        int newHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-        super.onMeasure(widthMeasureSpec, newHeight);
-    }
+    int newHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+    super.onMeasure(widthMeasureSpec, newHeight);
+  }
 }
