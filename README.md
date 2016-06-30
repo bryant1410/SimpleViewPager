@@ -81,7 +81,7 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.fiskurgit:SimpleViewPager:1.0.4'
+    compile 'com.github.fiskurgit:SimpleViewPager:1.0.5'
 }
 ```
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/SimpleViewPager/releases
