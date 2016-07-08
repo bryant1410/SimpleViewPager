@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="SimpleViewPager">
         <attr name="forceSquare" format="boolean" />
+        <attr name="vertical" format="boolean" />
     </declare-styleable>
 </resources>

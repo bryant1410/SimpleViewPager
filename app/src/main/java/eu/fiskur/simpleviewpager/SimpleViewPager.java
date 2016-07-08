@@ -1,6 +1,7 @@
 package eu.fiskur.simpleviewpager;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -9,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,7 +22,7 @@ public class SimpleViewPager extends RelativeLayout {
   private SimpleViewPagerAdapter adapter;
 
   private Context context;
-  private ViewPager viewPager;
+  private BiViewPager viewPager;
 
   //Circle indicators
   private LinearLayout circleLayout = null;
@@ -28,6 +30,7 @@ public class SimpleViewPager extends RelativeLayout {
   private Drawable unselectedCircle = null;
 
   private boolean forceSquare = false;
+  private boolean vertical = false;
 
   public SimpleViewPager(Context context) {
     super(context);
@@ -43,6 +46,7 @@ public class SimpleViewPager extends RelativeLayout {
 
     try {
       forceSquare = a.getBoolean(R.styleable.SimpleViewPager_forceSquare, false);
+      vertical = a.getBoolean(R.styleable.SimpleViewPager_vertical, false);
     } finally {
       a.recycle();
     }
@@ -51,7 +55,7 @@ public class SimpleViewPager extends RelativeLayout {
   }
 
   private void setupViewPager() {
-    viewPager = new ViewPager(context);
+    viewPager = new BiViewPager(context, vertical);
     viewPager.setId(R.id.programmatic_viewpager);
     addView(viewPager);
   }
@@ -84,7 +88,11 @@ public class SimpleViewPager extends RelativeLayout {
     viewPager.clearOnPageChangeListeners();
   }
 
+  private static final String TAG = "SimpleViewPager";
   public void setupIndicator(int unselectedColor, int selectedColor) {
+    if(vertical){
+      Log.d(TAG, "setupIndicator() vertical: " + vertical);
+    }
     selectedCircle = ContextCompat.getDrawable(context, circle);
     selectedCircle.setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
 
@@ -97,8 +105,19 @@ public class SimpleViewPager extends RelativeLayout {
     circleLayout = new LinearLayout(context);
 
     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-    params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+    if(vertical){
+      circleLayout.setOrientation(LinearLayout.VERTICAL);
+      int leftPadding = dpToPx(20);
+      circleLayout.setPadding(leftPadding, 0, 0, 0);
+      params.addRule(RelativeLayout.ALIGN_LEFT);
+      params.addRule(RelativeLayout.CENTER_VERTICAL);
+    }else{
+      circleLayout.setOrientation(LinearLayout.HORIZONTAL);
+      params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+      params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+    }
+
     params.bottomMargin = 75;
     circleLayout.setLayoutParams(params);
 
@@ -109,7 +128,12 @@ public class SimpleViewPager extends RelativeLayout {
       circle.setImageDrawable(unselectedCircle);
       circle.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
       circle.setAdjustViewBounds(true);
-      circle.setPadding(padding, 0, padding, 0);
+      if(vertical){
+        circle.setPadding(0, padding, 0, padding);
+      }else{
+        circle.setPadding(padding, 0, padding, 0);
+      }
+
       circleLayout.addView(circle);
     }
 
@@ -131,6 +155,10 @@ public class SimpleViewPager extends RelativeLayout {
         //unused
       }
     });
+  }
+
+  public static int dpToPx(int dp) {
+    return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
   }
 
   public void setCurrentItem(int index) {
@@ -172,24 +200,9 @@ public class SimpleViewPager extends RelativeLayout {
 
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
     if (forceSquare) {
       super.onMeasure(widthMeasureSpec, widthMeasureSpec);
     } else {
-            /*
-                int height = 0;
-                for (int i = 0; i < getChildCount(); i++) {
-                    View child = getChildAt(i);
-                    child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-                    int h = child.getMeasuredHeight();
-                    if (h > height) height = h;
-                }
-
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-            */
-
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
   }
