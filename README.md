@@ -68,7 +68,7 @@ Always call ```simpleViewPager.clearListeners()``` when the activity/fragment is
 
 ## Vertical View Pager
 
-You can add ```simpleviewpager:vertical="true"``` to your layout xml to get a ViewPager that scroll vertically, there's quite a few VerticalViewPager solutions around but most are old and unmaintained. 
+You can add ```simpleviewpager:vertical="true"``` to your layout xml to get a ViewPager that scrolls vertically, there's quite a few VerticalViewPager solutions around but most are old and unmaintained. 
 
 ```xml
 <eu.fiskur.simpleviewpager.SimpleViewPager
