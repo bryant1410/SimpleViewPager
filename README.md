@@ -66,6 +66,19 @@ Add a ViewPager.OnPageChangeListener if needed: ```simpleViewPager.setOnPageChan
 
 Always call ```simpleViewPager.clearListeners()``` when the activity/fragment is destroyed to avoid leaks.
 
+## Vertical View Pager
+
+You can add ```simpleviewpager:vertical="true"``` to your layout xml to get a ViewPager that scroll vertically, there's quite a few VerticalViewPager solutions around but most are old and unmaintained. 
+
+```xml
+<eu.fiskur.simpleviewpager.SimpleViewPager
+    android:id="@+id/simple_view_pager"
+    xmlns:simpleviewpager="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    simpleviewpager:vertical="true"/>
+```
+
 ##Dependency
 
 Add jitpack.io to your root build.gradle, eg:
@@ -84,7 +97,7 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.fiskurgit:SimpleViewPager:1.0.5'
+    compile 'com.github.fiskurgit:SimpleViewPager:1.0.6'
 }
 ```
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/SimpleViewPager/releases
