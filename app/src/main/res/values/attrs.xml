@@ -3,5 +3,7 @@
     <declare-styleable name="SimpleViewPager">
         <attr name="forceSquare" format="boolean" />
         <attr name="vertical" format="boolean" />
+        <attr name="circlesPaddingTop" format="dimension" />
+        <attr name="circlesPaddingBottom" format="dimension" />
     </declare-styleable>
 </resources>

@@ -29,8 +29,12 @@ public class SimpleViewPager extends RelativeLayout {
   private Drawable selectedCircle = null;
   private Drawable unselectedCircle = null;
 
+  //Xml attributes
   private boolean forceSquare = false;
   private boolean vertical = false;
+  private int circlesPaddingTop = 0;
+  private int circlesPaddingBottom = 0;
+
 
   public SimpleViewPager(Context context) {
     super(context);
@@ -47,6 +51,8 @@ public class SimpleViewPager extends RelativeLayout {
     try {
       forceSquare = a.getBoolean(R.styleable.SimpleViewPager_forceSquare, false);
       vertical = a.getBoolean(R.styleable.SimpleViewPager_vertical, false);
+      circlesPaddingTop = a.getDimensionPixelSize(R.styleable.SimpleViewPager_circlesPaddingTop, 0);
+      circlesPaddingBottom = a.getDimensionPixelSize(R.styleable.SimpleViewPager_circlesPaddingBottom, 0);
     } finally {
       a.recycle();
     }
@@ -90,9 +96,6 @@ public class SimpleViewPager extends RelativeLayout {
 
   private static final String TAG = "SimpleViewPager";
   public void setupIndicator(int unselectedColor, int selectedColor) {
-    if(vertical){
-      Log.d(TAG, "setupIndicator() vertical: " + vertical);
-    }
     selectedCircle = ContextCompat.getDrawable(context, circle);
     selectedCircle.setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
 
@@ -109,7 +112,7 @@ public class SimpleViewPager extends RelativeLayout {
     if(vertical){
       circleLayout.setOrientation(LinearLayout.VERTICAL);
       int leftPadding = dpToPx(20);
-      circleLayout.setPadding(leftPadding, 0, 0, 0);
+      circleLayout.setPadding(leftPadding, circlesPaddingTop, 0, circlesPaddingBottom);
       params.addRule(RelativeLayout.ALIGN_LEFT);
       params.addRule(RelativeLayout.CENTER_VERTICAL);
     }else{
