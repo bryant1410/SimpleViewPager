@@ -21,6 +21,19 @@ Add to your Android layout xml:
     />
 ```
 
+set Image scale type, and vertical attributes (see note below):
+
+```xml
+<eu.fiskur.simpleviewpager.SimpleViewPager
+    xmlns:simpleviewpager="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/simple_view_pager"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    simpleviewpager:vertical="true"
+    simpleviewpager:scaleType="CENTER_CROP"
+    />
+```
+
 Then add your images, and setup [Picasso](http://square.github.io/picasso/) ( or [Glide](https://github.com/bumptech/glide), [Fresco](https://github.com/facebook/fresco), or whatever):
 ```java
 SimpleViewPager simpleViewPager = (SimpleViewPager) findViewById(R.id.simple_view_pager);
@@ -55,9 +68,6 @@ simpleViewPager.setImageUrls(demoUrlArray, new ImageURLLoader() {
 int indicatorColor = Color.parseColor("#ffffff");
 int selectedIndicatorColor = Color.parseColor("#fff000");
 simpleViewPager.showIndicator(indicatorColor, selectedIndicatorColor);
-
-//optional:
-simpleViewPager.setScaleType(ImageView.ScaleType.FIT_XY);
 ```
 
 If you're using resources that ship with your app make life easy and let Picasso handle the memory management/downsampling and use an array of resources IDs. You can also set the ScaleType for the images (or again; leave that to [Picasso in the callback](http://square.github.io/picasso/#features)).  
@@ -79,6 +89,19 @@ You can add ```simpleviewpager:vertical="true"``` to your layout xml to get a Vi
     simpleviewpager:vertical="true"/>
 ```
 
+There's an additional ```circlesPaddingBottom``` in case you're using a BottomSheet floating over the SimpleViewPager and want to offset the pager indicators so they're still onscreen, or aligned vertically central onscreen:
+
+```xml
+<eu.fiskur.simpleviewpager.SimpleViewPager
+    android:id="@+id/simple_view_pager"
+    xmlns:simpleviewpager="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    simpleviewpager:vertical="true"
+    simpleviewpager:scaleType="CENTER_CROP"
+    simpleviewpager:circlesPaddingBottom="60dp"/>
+```
+
 ##Dependency
 
 Add jitpack.io to your root build.gradle, eg:
@@ -97,7 +120,7 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.fiskurgit:SimpleViewPager:1.0.6'
+    compile 'com.github.fiskurgit:SimpleViewPager:1.0.9'
 }
 ```
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/SimpleViewPager/releases
