@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SimpleViewPager"><attr format="boolean" name="forceSquare"/><attr format="boolean" name="vertical"/><attr format="dimension" name="circlesPaddingTop"/><attr format="dimension" name="circlesPaddingBottom"/></declare-styleable>
+    <item name="programmatic_viewpager" type="id"/>
+    <string name="app_name">SimpleViewPager</string>
+</resources>

@@ -34,6 +34,7 @@ public class SimpleViewPager extends RelativeLayout {
   private boolean vertical = false;
   private int circlesPaddingTop = 0;
   private int circlesPaddingBottom = 0;
+  private int scaleType = -1;
 
 
   public SimpleViewPager(Context context) {
@@ -53,6 +54,8 @@ public class SimpleViewPager extends RelativeLayout {
       vertical = a.getBoolean(R.styleable.SimpleViewPager_vertical, false);
       circlesPaddingTop = a.getDimensionPixelSize(R.styleable.SimpleViewPager_circlesPaddingTop, 0);
       circlesPaddingBottom = a.getDimensionPixelSize(R.styleable.SimpleViewPager_circlesPaddingBottom, 0);
+
+      scaleType = a.getInteger(R.styleable.SimpleViewPager_scaleType, -1);
     } finally {
       a.recycle();
     }
@@ -67,12 +70,12 @@ public class SimpleViewPager extends RelativeLayout {
   }
 
   public void setImageUrls(String[] imageUrls, ImageURLLoader imageURLLoader) {
-    adapter = new SimpleViewPagerAdapter(context, imageUrls, imageURLLoader);
+    adapter = new SimpleViewPagerAdapter(context, imageUrls, imageURLLoader, convertScaleTypeAttribute());
     viewPager.setAdapter(adapter);
   }
 
   public void setImageIds(int[] resourceIds, ImageResourceLoader imageResourceLoader) {
-    adapter = new SimpleViewPagerAdapter(context, resourceIds, imageResourceLoader);
+    adapter = new SimpleViewPagerAdapter(context, resourceIds, imageResourceLoader, convertScaleTypeAttribute());
     viewPager.setAdapter(adapter);
   }
 
@@ -80,9 +83,27 @@ public class SimpleViewPager extends RelativeLayout {
     setupIndicator(indicatorColor, selectedIndicatorColor);
   }
 
-  public void setScaleType(ImageView.ScaleType scaleType) {
-    if (adapter != null) {
-      adapter.setScaleType(scaleType);
+  private ImageView.ScaleType convertScaleTypeAttribute(){
+    switch(scaleType){
+      case 0:
+        return ImageView.ScaleType.CENTER;
+      case 1:
+      case -1:
+        return ImageView.ScaleType.CENTER_CROP;
+      case 2:
+        return ImageView.ScaleType.CENTER_INSIDE;
+      case 3:
+        return ImageView.ScaleType.FIT_CENTER;
+      case 4:
+        return ImageView.ScaleType.FIT_END;
+      case 5:
+        return ImageView.ScaleType.FIT_START;
+      case 6:
+        return ImageView.ScaleType.FIT_XY;
+      case 7:
+        return ImageView.ScaleType.MATRIX;
+      default:
+        return ImageView.ScaleType.CENTER_CROP;
     }
   }
 

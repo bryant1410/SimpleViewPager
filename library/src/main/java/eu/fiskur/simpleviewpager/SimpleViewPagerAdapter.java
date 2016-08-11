@@ -26,28 +26,39 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
   private ImageResourceLoader imageResourceLoader;
   private ImageView.ScaleType scaleType = null;
 
-  public SimpleViewPagerAdapter(Context context, String[] imageUrls, ImageURLLoader imageURLLoader) {
+  public SimpleViewPagerAdapter(Context context, String[] imageUrls, ImageURLLoader imageURLLoader, ImageView.ScaleType scaleType) {
     mode = MODE_URLS;
     this.context = context;
     this.imageUrls = imageUrls;
     this.imageURLLoader = imageURLLoader;
+    this.scaleType = scaleType;
+
+    if(scaleType == null){
+      scaleType = ImageView.ScaleType.CENTER_CROP;
+    }
   }
 
-  public SimpleViewPagerAdapter(Context context, Drawable[] drawables) {
+  public SimpleViewPagerAdapter(Context context, Drawable[] drawables, ImageView.ScaleType scaleType) {
     mode = MODE_DRAWABLES;
     this.context = context;
     this.drawables = drawables;
+    this.scaleType = scaleType;
+
+    if(scaleType == null){
+      scaleType = ImageView.ScaleType.CENTER_CROP;
+    }
   }
 
-  public SimpleViewPagerAdapter(Context context, int[] resourceIds, ImageResourceLoader imageResourceLoader) {
+  public SimpleViewPagerAdapter(Context context, int[] resourceIds, ImageResourceLoader imageResourceLoader, ImageView.ScaleType scaleType) {
     mode = MODE_IDS;
     this.context = context;
     this.resourceIds = resourceIds;
     this.imageResourceLoader = imageResourceLoader;
-  }
-
-  public void setScaleType(ImageView.ScaleType scaleType) {
     this.scaleType = scaleType;
+
+    if(scaleType == null){
+      scaleType = ImageView.ScaleType.CENTER_CROP;
+    }
   }
 
   @Override public Object instantiateItem(ViewGroup container, int position) {
