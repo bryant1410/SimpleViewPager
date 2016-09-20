@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
     this.scaleType = scaleType;
 
     if(scaleType == null){
-      scaleType = ImageView.ScaleType.CENTER_CROP;
+      this.scaleType = ImageView.ScaleType.CENTER_CROP;
     }
   }
 
@@ -45,7 +46,7 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
     this.scaleType = scaleType;
 
     if(scaleType == null){
-      scaleType = ImageView.ScaleType.CENTER_CROP;
+      this.scaleType = ImageView.ScaleType.CENTER_CROP;
     }
   }
 
@@ -57,7 +58,7 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
     this.scaleType = scaleType;
 
     if(scaleType == null){
-      scaleType = ImageView.ScaleType.CENTER_CROP;
+      this.scaleType = ImageView.ScaleType.CENTER_CROP;
     }
   }
 
@@ -116,6 +117,8 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
   }
 
   @Override public void destroyItem(ViewGroup container, int position, Object object) {
-    //container.removeViewAt(position);
+    if(object instanceof ImageView) {
+      container.removeView((ImageView) object);
+    }
   }
 }
