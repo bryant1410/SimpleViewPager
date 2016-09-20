@@ -36,6 +36,8 @@ public class SimpleViewPager extends RelativeLayout {
   private int circlesPaddingBottom = 0;
   private int scaleType = -1;
 
+  int currentIndicator = 0;
+
 
   public SimpleViewPager(Context context) {
     super(context);
@@ -205,6 +207,7 @@ public class SimpleViewPager extends RelativeLayout {
   }
 
   private void setIndicator(int index) {
+    currentIndicator = index;
     int imageCount = adapter.getCount();
 
     if (index >= imageCount) {
@@ -228,6 +231,16 @@ public class SimpleViewPager extends RelativeLayout {
       super.onMeasure(widthMeasureSpec, widthMeasureSpec);
     } else {
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+  }
+
+  @Override
+  protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    super.onLayout(changed, l, t, r, b);
+
+    if(adapter != null) {
+      resetIndicator();
+      setIndicator(currentIndicator);
     }
   }
 }
