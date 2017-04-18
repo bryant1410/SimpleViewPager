@@ -101,7 +101,7 @@ There's an additional ```circlesPaddingBottom``` in case you're using a BottomSh
     simpleviewpager:circlesPaddingBottom="60dp"/>
 ```
 
-##Dependency
+## Dependency
 
 Add jitpack.io to your root build.gradle, eg:
 
@@ -126,7 +126,7 @@ You can find the latest version in the releases tab above: https://github.com/fi
 
 More options at jitpack.io: https://jitpack.io/#fiskurgit/SimpleViewPager
 
-##Licence
+## Licence
 
 Full licence here: https://github.com/fiskurgit/SyntaxView/blob/master/LICENSE
 
